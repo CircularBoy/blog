@@ -1,11 +1,13 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import React from 'react'
+import { Provider, useStore } from 'react-redux'
 
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 `
 
@@ -15,15 +17,16 @@ const theme = {
   },
 }
 
-// eslint-disable-next-line react/prop-types
 export default function App({ Component, pageProps }) {
-  console.log(pageProps)
+  const store = useStore()
   return (
     <>
-      <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <Provider store={store}>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Provider>
     </>
   )
 }
