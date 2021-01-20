@@ -1,6 +1,7 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import React from 'react'
 import { Provider, useStore } from 'react-redux'
+import store from '../src/store/redux'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -18,7 +19,6 @@ const theme = {
 }
 
 export default function App({ Component, pageProps }) {
-  const store = useStore()
   return (
     <>
       <Provider store={store}>
