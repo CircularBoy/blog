@@ -1,10 +1,12 @@
 import { postsAPI } from '../api/API'
 
-type State = {
-  posts: Array<Post>
-  isPostsFetching: boolean
-  isPostCreating: boolean
-}
+// type State = {
+//   posts: Array<Post>
+//   isPostsFetching: boolean
+//   isPostCreating: boolean
+//   redirectTo: boolean
+// }
+type State = typeof initState
 export type Post = {
   id: number
   title: string
@@ -18,9 +20,10 @@ type Comment = {
 }
 
 const initState = {
-  posts: [],
+  posts: [] as Array<Post>,
   isPostsFetching: false,
   isPostCreating: false,
+  redirectTo: false,
 }
 
 export type PostData = {
@@ -68,6 +71,7 @@ const actions = {
 }
 
 export const requestPosts = () => async (dispatch) => {
+  console.log('request posts')
   dispatch(actions.isPostsFetching(true))
   const { data, status } = await postsAPI.getPosts()
   if (status === 200) {
@@ -79,7 +83,7 @@ export const newPost = (postPayload: PostData) => async (dispatch) => {
   dispatch(actions.isPostCreating(true))
   const response = await postsAPI.createPost(postPayload)
   console.log(response)
-  if (response.status === 200) {
+  if (response.status === 201) {
     dispatch(requestPosts())
   }
   dispatch(actions.isPostCreating(false))
